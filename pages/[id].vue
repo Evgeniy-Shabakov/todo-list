@@ -31,6 +31,8 @@ onBeforeUnmount(() => {
    if (currentTodo) {
       currentTodo.title = title.value
       currentTodo.date = date.value
+
+      localStorage.setItem('todo-list', JSON.stringify(todoList.value))
    }
 })
 
