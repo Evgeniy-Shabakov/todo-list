@@ -1,22 +1,44 @@
 <script setup>
 import { todoList, removeTodo, addTodo } from '~/js/todo-list'
 
+const id = useRoute().params.id
+
 const title = ref()
 const date = ref(new Date().toISOString().split('T')[0]) //устанавливаем текущую дату
 
 const subTodoInput = ref()
 const subTodoList = ref([])
 
-const taskInput = ref(null); // Создаем реф для textarea
+let currentTodo
+
+if (id != 'create') {
+   currentTodo = todoList.value.find(todo => todo.id == id)
+
+   if (currentTodo) {
+      title.value = currentTodo.title
+      date.value = currentTodo.date
+      subTodoList.value = currentTodo.subTodoList
+   }
+}
+
+const taskInput = ref(null) // Создаем реф для textarea
 
 onMounted(() => {
-   taskInput.value.focus(); // Устанавливаем фокус на textarea
-});
+   if (id == 'create') taskInput.value.focus()
+})
+
+onBeforeUnmount(() => {
+   if (currentTodo) {
+      currentTodo.title = title.value
+      currentTodo.date = date.value
+   }
+})
 
 function btnAddTodoHandler() {
    if (!title.value) return
 
    const todo = {
+      id: Date.now(),
       title: title.value,
       date: date.value,
       subTodoList: subTodoList.value
@@ -42,9 +64,11 @@ function removeSubTodo(index) {
 
 <template>
    <div>
-      <h1 class="py-2 text-xl text-center">Добавление задачи</h1>
+      <h1 class="py-2 text-xl text-center">
+         {{ id == 'create' ? 'Добавление' : 'Редактирование' }} задачи
+      </h1>
 
-      <div class="mt-2 flex flex-col gap-3">
+      <div class="mt-2 mb-14 flex flex-col gap-3">
 
          <textarea ref="taskInput"
                    class="bg-gray-100 border border-green-500 rounded-md h-40 p-3"
@@ -56,40 +80,35 @@ function removeSubTodo(index) {
                 class="bg-gray-100 border border-green-500 rounded-md p-3 w-max">
 
          <div class="flex items-center justify-between gap-2.5">
-            <textarea class="bg-gray-100 border border-green-500 rounded-md w-full p-3"
+            <textarea class="bg-gray-100 border border-blue-500 rounded-md w-full p-3"
                       v-model="subTodoInput"
                       placeholder="Введите подзадачу" />
 
-            <button class="bg-green-500 active:bg-green-400 p-3 rounded-full text-gray-100"
+            <button class="bg-blue-500 active:bg-green-400 p-3 rounded-full text-gray-100"
                     @click="addSubTodo">
                <IconPlus></IconPlus>
             </button>
          </div>
 
-
-
-
          <div class="space-y-2">
             <div v-for="(subTodo, index) in subTodoList"
-                 class=" bg-green-300 rounded-md p-2 flex items-center justify-between">
+                 class=" bg-blue-300 rounded-md p-2 flex items-center justify-between">
 
                <div>
                   {{ subTodo }}
                </div>
-               <div class="text-red-500"
-                    @click="removeSubTodo(index)">
-                  <IconTrash></IconTrash>
+               <div @click="removeSubTodo(index)">
+                  <IconXmark></IconXmark>
                </div>
 
             </div>
          </div>
 
-
       </div>
 
-      <button class="fixed bottom-10 right-10 bg-green-500 active:bg-green-400 rounded-full p-3 text-white"
-              @click="btnAddTodoHandler">
-         <IconPlus></IconPlus>
+      <button class="fixed bottom-0 left-0 w-full p-3 bg-green-600 text-white"
+              @click="id == 'create' ? btnAddTodoHandler() : navigateTo('/')">
+         {{ id == 'create' ? 'Добавить созданную задачу' : 'Сохранить' }}
       </button>
 
    </div>
