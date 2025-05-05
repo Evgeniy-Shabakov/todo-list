@@ -82,52 +82,102 @@ function removeSubTodo(index) {
                 v-model="date"
                 class="bg-gray-100 border border-violet-500 rounded-md p-3 w-max">
 
-         <div class="flex gap-2 flex-wrap">
+         <div class="flex gap-0.5 flex-wrap">
 
             <img class="h-12 w-12 p-1"
                  :class="{ 'border border-violet-500 rounded-md': imgIndex === 0 }"
                  @click="imgIndex = 0"
-                 src="~/assets/images/todo-list-icon.png">
+                 src="~/assets/images/img_0.png">
 
             <img class="h-12 w-12 p-1"
                  :class="{ 'border border-violet-500 rounded-md': imgIndex === 1 }"
                  @click="imgIndex = 1"
-                 src="~/assets/images/maney.png">
+                 src="~/assets/images/img_1.png">
 
             <img class="h-12 w-12 p-1"
                  :class="{ 'border border-violet-500 rounded-md': imgIndex === 2 }"
                  @click="imgIndex = 2"
-                 src="~/assets/images/real-estate.png">
+                 src="~/assets/images/img_2.png">
 
             <img class="h-12 w-12 p-1"
                  :class="{ 'border border-violet-500 rounded-md': imgIndex === 3 }"
                  @click="imgIndex = 3"
-                 src="~/assets/images/phone.png">
+                 src="~/assets/images/img_3.png">
 
             <img class="h-12 w-12 p-1"
                  :class="{ 'border border-violet-500 rounded-md': imgIndex === 4 }"
                  @click="imgIndex = 4"
-                 src="~/assets/images/house.png">
+                 src="~/assets/images/img_4.png">
 
             <img class="h-12 w-12 p-1"
                  :class="{ 'border border-violet-500 rounded-md': imgIndex === 5 }"
                  @click="imgIndex = 5"
-                 src="~/assets/images/soap_shamp.png">
+                 src="~/assets/images/img_5.png">
 
             <img class="h-12 w-12 p-1"
                  :class="{ 'border border-violet-500 rounded-md': imgIndex === 6 }"
                  @click="imgIndex = 6"
-                 src="~/assets/images/washing.png">
+                 src="~/assets/images/img_6.png">
 
             <img class="h-12 w-12 p-1"
                  :class="{ 'border border-violet-500 rounded-md': imgIndex === 7 }"
                  @click="imgIndex = 7"
-                 src="~/assets/images/broom.png">
+                 src="~/assets/images/img_7.png">
 
             <img class="h-12 w-12 p-1"
                  :class="{ 'border border-violet-500 rounded-md': imgIndex === 8 }"
                  @click="imgIndex = 8"
-                 src="~/assets/images/balloon.png">
+                 src="~/assets/images/img_8.png">
+
+            <img class="h-12 w-12 p-1"
+                 :class="{ 'border border-violet-500 rounded-md': imgIndex === 9 }"
+                 @click="imgIndex = 9"
+                 src="~/assets/images/img_9.png">
+
+            <img class="h-12 w-12 p-1"
+                 :class="{ 'border border-violet-500 rounded-md': imgIndex === 10 }"
+                 @click="imgIndex = 10"
+                 src="~/assets/images/img_10.png">
+
+            <img class="h-12 w-12 p-1"
+                 :class="{ 'border border-violet-500 rounded-md': imgIndex === 11 }"
+                 @click="imgIndex = 11"
+                 src="~/assets/images/img_11.png">
+
+            <img class="h-12 w-12 p-1"
+                 :class="{ 'border border-violet-500 rounded-md': imgIndex === 12 }"
+                 @click="imgIndex = 12"
+                 src="~/assets/images/img_12.png">
+
+            <img class="h-12 w-12 p-1"
+                 :class="{ 'border border-violet-500 rounded-md': imgIndex === 13 }"
+                 @click="imgIndex = 13"
+                 src="~/assets/images/img_13.png">
+
+            <img class="h-12 w-12 p-1"
+                 :class="{ 'border border-violet-500 rounded-md': imgIndex === 14 }"
+                 @click="imgIndex = 14"
+                 src="~/assets/images/img_14.png">
+
+            <img class="h-12 w-12 p-1"
+                 :class="{ 'border border-violet-500 rounded-md': imgIndex === 15 }"
+                 @click="imgIndex = 15"
+                 src="~/assets/images/img_15.png">
+
+            <img class="h-12 w-12 p-1"
+                 :class="{ 'border border-violet-500 rounded-md': imgIndex === 16 }"
+                 @click="imgIndex = 16"
+                 src="~/assets/images/img_16.png">
+
+            <img class="h-12 w-12 p-1"
+                 :class="{ 'border border-violet-500 rounded-md': imgIndex === 17 }"
+                 @click="imgIndex = 17"
+                 src="~/assets/images/img_17.png">
+
+            <img class="h-12 w-12 p-1"
+                 :class="{ 'border border-violet-500 rounded-md': imgIndex === 18 }"
+                 @click="imgIndex = 18"
+                 src="~/assets/images/img_18.png">
 
          </div>
 
