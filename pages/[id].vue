@@ -1,5 +1,5 @@
 <script setup>
-import { todoList, removeTodo, addTodo } from '~/js/todo-list'
+import { todoList, addTodo } from '~/js/todo-list'
 
 const id = useRoute().params.id
 
@@ -64,11 +64,8 @@ function removeSubTodo(index) {
 
 <template>
    <div>
-      <h1 class="py-2 text-xl text-center">
-         {{ id == 'create' ? 'Добавление' : 'Редактирование' }} задачи
-      </h1>
 
-      <div class="mt-2 mb-14 flex flex-col gap-3">
+      <div class="mt-4 mb-14 flex flex-col gap-3">
 
          <textarea ref="taskInput"
                    class="bg-gray-100 border border-violet-500 rounded-md h-40 p-3"
@@ -92,7 +89,7 @@ function removeSubTodo(index) {
 
          <div class="space-y-2">
             <div v-for="(subTodo, index) in subTodoList"
-                 class=" bg-blue-300 rounded-md p-2 flex items-center justify-between">
+                 class=" bg-violet-300 rounded-md p-2 flex items-center justify-between">
 
                <div>
                   {{ subTodo }}
