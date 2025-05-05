@@ -71,20 +71,20 @@ function removeSubTodo(index) {
       <div class="mt-2 mb-14 flex flex-col gap-3">
 
          <textarea ref="taskInput"
-                   class="bg-gray-100 border border-green-500 rounded-md h-40 p-3"
+                   class="bg-gray-100 border border-violet-500 rounded-md h-40 p-3"
                    v-model="title"
                    placeholder="Введите задачу" />
 
          <input type="date"
                 v-model="date"
-                class="bg-gray-100 border border-green-500 rounded-md p-3 w-max">
+                class="bg-gray-100 border border-violet-500 rounded-md p-3 w-max">
 
          <div class="flex items-center justify-between gap-2.5">
-            <textarea class="bg-gray-100 border border-blue-500 rounded-md w-full p-3"
+            <textarea class="bg-gray-100 border border-violet-500 rounded-md w-full p-3"
                       v-model="subTodoInput"
                       placeholder="Введите подзадачу" />
 
-            <button class="bg-blue-500 active:bg-green-400 p-3 rounded-full text-gray-100"
+            <button class="bg-violet-600 p-3 rounded-full text-gray-100"
                     @click="addSubTodo">
                <IconPlus></IconPlus>
             </button>
@@ -106,7 +106,7 @@ function removeSubTodo(index) {
 
       </div>
 
-      <button class="fixed bottom-0 left-0 w-full p-3 bg-green-600 text-white"
+      <button class="fixed bottom-0 left-0 w-full p-3 bg-violet-600 text-white"
               @click="id == 'create' ? btnAddTodoHandler() : navigateTo('/')">
          {{ id == 'create' ? 'Добавить созданную задачу' : 'Сохранить' }}
       </button>
