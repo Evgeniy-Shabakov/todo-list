@@ -1,12 +1,13 @@
 <script setup>
 import { todoList, removeTodo, removeSubTodo, upTodo, downTodo } from '~/js/todo-list'
 import { formatDate, isToday, isTomorrow, isPaste } from '~/js/date-helper'
+import { imagesForIcons } from '~/js/images-helper'
 
 </script>
 
 <template>
    <div>
-      
+
       <div class="mb-14">
          <div v-for="(todo, index) in todoList"
               :key="todo.id"
@@ -24,11 +25,40 @@ import { formatDate, isToday, isTomorrow, isPaste } from '~/js/date-helper'
             <div class="bg-green-500 rounded-md p-3 mt-3 text-green-900"
                  @click="navigateTo(`/${todo.id}`)">
 
-               <div class="flex items-center justify-between">
+               <div class="flex items-center gap-2">
+
+                  <img v-if="todo.imgIndex === 1"
+                       class="h-6 w-6"
+                       src="~/assets/images/maney.png">
+                  <img v-else-if="todo.imgIndex === 2"
+                       class="h-6 w-6"
+                       src="~/assets/images/real-estate.png">
+                  <img v-else-if="todo.imgIndex === 3"
+                       class="h-6 w-6"
+                       src="~/assets/images/phone.png">
+                  <img v-else-if="todo.imgIndex === 4"
+                       class="h-6 w-6"
+                       src="~/assets/images/house.png">
+                  <img v-else-if="todo.imgIndex === 5"
+                       class="h-6 w-6"
+                       src="~/assets/images/soap_shamp.png">
+                  <img v-else-if="todo.imgIndex === 6"
+                       class="h-6 w-6"
+                       src="~/assets/images/washing.png">
+                  <img v-else-if="todo.imgIndex === 7"
+                       class="h-6 w-6"
+                       src="~/assets/images/broom.png">
+                  <img v-else-if="todo.imgIndex === 8"
+                       class="h-6 w-6"
+                       src="~/assets/images/balloon.png">
+                  <img v-else
+                       class="h-6 w-6"
+                       src="~/assets/images/todo-list-icon.png">
+
                   <div>
                      {{ todo.title }}
                   </div>
-                  <div class="flex gap-1">
+                  <div class="flex gap-1 ml-auto">
                      <IconArrowDown class="text-violet-500"
                                     @click.stop="downTodo(index)" />
                      <IconArrowUp class="text-violet-500 mr-2.5"

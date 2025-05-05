@@ -5,6 +5,7 @@ const id = useRoute().params.id
 
 const title = ref()
 const date = ref(new Date().toISOString().split('T')[0]) //устанавливаем текущую дату
+const imgIndex = ref(0)
 
 const subTodoInput = ref()
 const subTodoList = ref([])
@@ -17,6 +18,7 @@ if (id != 'create') {
    if (currentTodo) {
       title.value = currentTodo.title
       date.value = currentTodo.date
+      imgIndex.value = currentTodo.imgIndex
       subTodoList.value = currentTodo.subTodoList
    }
 }
@@ -31,6 +33,7 @@ onBeforeUnmount(() => {
    if (currentTodo) {
       currentTodo.title = title.value
       currentTodo.date = date.value
+      currentTodo.imgIndex = imgIndex.value
 
       localStorage.setItem('todo-list', JSON.stringify(todoList.value))
    }
@@ -43,6 +46,7 @@ function btnAddTodoHandler() {
       id: Date.now(),
       title: title.value,
       date: date.value,
+      imgIndex: imgIndex.value,
       subTodoList: subTodoList.value
    }
 
@@ -77,6 +81,56 @@ function removeSubTodo(index) {
          <input type="date"
                 v-model="date"
                 class="bg-gray-100 border border-violet-500 rounded-md p-3 w-max">
+
+         <div class="flex gap-2 flex-wrap">
+
+            <img class="h-12 w-12 p-1"
+                 :class="{ 'border border-violet-500 rounded-md': imgIndex === 0 }"
+                 @click="imgIndex = 0"
+                 src="~/assets/images/todo-list-icon.png">
+
+            <img class="h-12 w-12 p-1"
+                 :class="{ 'border border-violet-500 rounded-md': imgIndex === 1 }"
+                 @click="imgIndex = 1"
+                 src="~/assets/images/maney.png">
+
+            <img class="h-12 w-12 p-1"
+                 :class="{ 'border border-violet-500 rounded-md': imgIndex === 2 }"
+                 @click="imgIndex = 2"
+                 src="~/assets/images/real-estate.png">
+
+            <img class="h-12 w-12 p-1"
+                 :class="{ 'border border-violet-500 rounded-md': imgIndex === 3 }"
+                 @click="imgIndex = 3"
+                 src="~/assets/images/phone.png">
+
+            <img class="h-12 w-12 p-1"
+                 :class="{ 'border border-violet-500 rounded-md': imgIndex === 4 }"
+                 @click="imgIndex = 4"
+                 src="~/assets/images/house.png">
+
+            <img class="h-12 w-12 p-1"
+                 :class="{ 'border border-violet-500 rounded-md': imgIndex === 5 }"
+                 @click="imgIndex = 5"
+                 src="~/assets/images/soap_shamp.png">
+
+            <img class="h-12 w-12 p-1"
+                 :class="{ 'border border-violet-500 rounded-md': imgIndex === 6 }"
+                 @click="imgIndex = 6"
+                 src="~/assets/images/washing.png">
+
+            <img class="h-12 w-12 p-1"
+                 :class="{ 'border border-violet-500 rounded-md': imgIndex === 7 }"
+                 @click="imgIndex = 7"
+                 src="~/assets/images/broom.png">
+
+            <img class="h-12 w-12 p-1"
+                 :class="{ 'border border-violet-500 rounded-md': imgIndex === 8 }"
+                 @click="imgIndex = 8"
+                 src="~/assets/images/balloon.png">
+
+         </div>
+
 
          <div class="flex items-center justify-between gap-2.5">
             <textarea class="bg-gray-100 border border-violet-500 rounded-md w-full p-3"
