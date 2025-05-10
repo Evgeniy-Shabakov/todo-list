@@ -16,7 +16,8 @@ const onDragEnd = () => {
 
          <draggable v-model="todoList"
                     item-key="id"
-                    @end="onDragEnd">
+                    @end="onDragEnd"
+                    :delay="500">
 
             <template #item="{ element: todo, index }">
 
