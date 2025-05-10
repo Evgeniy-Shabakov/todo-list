@@ -1,12 +1,32 @@
 <script setup>
 import draggable from 'vuedraggable';
-import { todoList, removeTodo, removeSubTodo, upTodo, downTodo } from '~/js/todo-list'
+import { todoList, removeTodo, removeSubTodo } from '~/js/todo-list'
 import { formatDate, isToday, isTomorrow, isPaste } from '~/js/date-helper'
 
+const delayForMooving = 500
+let delayForMoovingTimer
+
 const onDragEnd = () => {
-   localStorage.setItem('todo-list', JSON.stringify(todoList.value))
+   setTimeout(() => {
+      localStorage.setItem('todo-list', JSON.stringify(todoList.value))
+   }, 100)
 }
 
+function handleMouseDown(todo) {
+   delayForMoovingTimer = setTimeout(() => {
+      todo.isSelected = true
+   }, delayForMooving)
+}
+
+function handleMouseUp(todo) {
+   clearTimeout(delayForMoovingTimer)
+   setTimeout(() => todo.isSelected = false) //для clickHandler, чтобы не было вызова при длинном нажатии
+}
+
+function clickHandler(todo) {
+   if (todo.isSelected) return
+   navigateTo(`/${todo.id}`)
+}
 </script>
 
 <template>
@@ -17,7 +37,7 @@ const onDragEnd = () => {
          <draggable v-model="todoList"
                     item-key="id"
                     @end="onDragEnd"
-                    :delay="500">
+                    :delay=delayForMooving>
 
             <template #item="{ element: todo, index }">
 
@@ -33,94 +53,101 @@ const onDragEnd = () => {
                   </div>
 
                   <div class="bg-green-500 rounded-md p-3 mt-3 text-green-900"
-                       @click="navigateTo(`/${todo.id}`)">
+                       :class="{ 'border-2 border-purple-600': todo.isSelected }"
+                       @click="clickHandler(todo)"
+                       @mousedown="handleMouseDown(todo)"
+                       @mouseup="handleMouseUp(todo)"
+                       @mouseleave="handleMouseUp(todo)"
+                       @touchstart="handleMouseDown(todo)"
+                       @touchend="handleMouseUp(todo)">
 
                      <div class="flex items-center gap-2">
 
-                        <div>
-                           <img v-if="todo.imgIndex === 1"
-                                class="h-6 w-6"
-                                src="~/assets/images/img_1.png">
+                        <img v-if="todo.imgIndex === 1"
+                             class="h-6 w-6"
+                             src="~/assets/images/img_1.png">
 
-                           <img v-else-if="todo.imgIndex === 2"
-                                class="h-6 w-6"
-                                src="~/assets/images/img_2.png">
+                        <img v-else-if="todo.imgIndex === 2"
+                             class="h-6 w-6"
+                             src="~/assets/images/img_2.png">
 
-                           <img v-else-if="todo.imgIndex === 3"
-                                class="h-6 w-6"
-                                src="~/assets/images/img_3.png">
+                        <img v-else-if="todo.imgIndex === 3"
+                             class="h-6 w-6"
+                             src="~/assets/images/img_3.png">
 
-                           <img v-else-if="todo.imgIndex === 4"
-                                class="h-6 w-6"
-                                src="~/assets/images/img_4.png">
+                        <img v-else-if="todo.imgIndex === 4"
+                             class="h-6 w-6"
+                             src="~/assets/images/img_4.png">
 
-                           <img v-else-if="todo.imgIndex === 5"
-                                class="h-6 w-6"
-                                src="~/assets/images/img_5.png">
+                        <img v-else-if="todo.imgIndex === 5"
+                             class="h-6 w-6"
+                             src="~/assets/images/img_5.png">
 
-                           <img v-else-if="todo.imgIndex === 6"
-                                class="h-6 w-6"
-                                src="~/assets/images/img_6.png">
+                        <img v-else-if="todo.imgIndex === 6"
+                             class="h-6 w-6"
+                             src="~/assets/images/img_6.png">
 
-                           <img v-else-if="todo.imgIndex === 7"
-                                class="h-6 w-6"
-                                src="~/assets/images/img_7.png">
+                        <img v-else-if="todo.imgIndex === 7"
+                             class="h-6 w-6"
+                             src="~/assets/images/img_7.png">
 
-                           <img v-else-if="todo.imgIndex === 8"
-                                class="h-6 w-6"
-                                src="~/assets/images/img_8.png">
+                        <img v-else-if="todo.imgIndex === 8"
+                             class="h-6 w-6"
+                             src="~/assets/images/img_8.png">
 
-                           <img v-else-if="todo.imgIndex === 9"
-                                class="h-6 w-6"
-                                src="~/assets/images/img_9.png">
+                        <img v-else-if="todo.imgIndex === 9"
+                             class="h-6 w-6"
+                             src="~/assets/images/img_9.png">
 
-                           <img v-else-if="todo.imgIndex === 10"
-                                class="h-6 w-6"
-                                src="~/assets/images/img_10.png">
+                        <img v-else-if="todo.imgIndex === 10"
+                             class="h-6 w-6"
+                             src="~/assets/images/img_10.png">
 
-                           <img v-else-if="todo.imgIndex === 11"
-                                class="h-6 w-6"
-                                src="~/assets/images/img_11.png">
+                        <img v-else-if="todo.imgIndex === 11"
+                             class="h-6 w-6"
+                             src="~/assets/images/img_11.png">
 
-                           <img v-else-if="todo.imgIndex === 12"
-                                class="h-6 w-6"
-                                src="~/assets/images/img_12.png">
+                        <img v-else-if="todo.imgIndex === 12"
+                             class="h-6 w-6"
+                             src="~/assets/images/img_12.png">
 
-                           <img v-else-if="todo.imgIndex === 13"
-                                class="h-6 w-6"
-                                src="~/assets/images/img_13.png">
+                        <img v-else-if="todo.imgIndex === 13"
+                             class="h-6 w-6"
+                             src="~/assets/images/img_13.png">
 
-                           <img v-else-if="todo.imgIndex === 14"
-                                class="h-6 w-6"
-                                src="~/assets/images/img_14.png">
+                        <img v-else-if="todo.imgIndex === 14"
+                             class="h-6 w-6"
+                             src="~/assets/images/img_14.png">
 
-                           <img v-else-if="todo.imgIndex === 15"
-                                class="h-6 w-6"
-                                src="~/assets/images/img_15.png">
+                        <img v-else-if="todo.imgIndex === 15"
+                             class="h-6 w-6"
+                             src="~/assets/images/img_15.png">
 
-                           <img v-else-if="todo.imgIndex === 16"
-                                class="h-6 w-6"
-                                src="~/assets/images/img_16.png">
+                        <img v-else-if="todo.imgIndex === 16"
+                             class="h-6 w-6"
+                             src="~/assets/images/img_16.png">
 
-                           <img v-else-if="todo.imgIndex === 17"
-                                class="h-6 w-6"
-                                src="~/assets/images/img_17.png">
+                        <img v-else-if="todo.imgIndex === 17"
+                             class="h-6 w-6"
+                             src="~/assets/images/img_17.png">
 
-                           <img v-else-if="todo.imgIndex === 18"
-                                class="h-6 w-6"
-                                src="~/assets/images/img_18.png">
+                        <img v-else-if="todo.imgIndex === 18"
+                             class="h-6 w-6"
+                             src="~/assets/images/img_18.png">
 
-                           <img v-else
-                                class="h-6 w-6"
-                                src="~/assets/images/img_0.png">
-                        </div>
+                        <img v-else
+                             class="h-6 w-6"
+                             src="~/assets/images/img_0.png">
+
 
                         <div>
                            {{ todo.title }}
                         </div>
 
-                        <IconTrash class="text-red-500 ml-auto"
-                                   @click.stop="removeTodo(index)" />
+                        <div class="ml-auto">
+                           <IconTrash class="text-red-500"
+                                      @click.stop="removeTodo(index)" />
+                        </div>
 
                      </div>
 
