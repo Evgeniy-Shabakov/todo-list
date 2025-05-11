@@ -39,28 +39,6 @@ export function restoreTodo(index) {
    }
 }
 
-export function upTodo(index) {
-   if (index > 0 && index < todoList.value.length) {
-      const currentItem = todoList.value[index]
-
-      todoList.value[index] = todoList.value[index - 1]
-      todoList.value[index - 1] = currentItem
-
-      localStorage.setItem('todo-list', JSON.stringify(todoList.value))
-   }
-}
-
-export function downTodo(index) {
-   if (index >= 0 && index < todoList.value.length - 1) {
-      const currentItem = todoList.value[index]
-
-      todoList.value[index] = todoList.value[index + 1]
-      todoList.value[index + 1] = currentItem
-
-      localStorage.setItem('todo-list', JSON.stringify(todoList.value))
-   }
-}
-
 export function initialize() {
    if (localStorage.getItem('todo-list')) {
       todoList.value = JSON.parse(localStorage.getItem('todo-list'))
