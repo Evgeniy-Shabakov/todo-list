@@ -3,30 +3,22 @@ import draggable from 'vuedraggable';
 import { todoList, removeTodo, removeSubTodo } from '~/js/todo-list'
 import { formatDate, isToday, isTomorrow, isPaste } from '~/js/date-helper'
 
-const delayForMooving = 500
-let delayForMoovingTimer
+const onDragReady = (event) => {
+   const todoId = event.item.dataset.id; // Получаем ID из data-атрибута
+   const todo = todoList.value.find(el => el.id == todoId)
+   todo.isDragReady = true
+}
+
+const onDragCancel = (event) => {
+   const todoId = event.item.dataset.id; // Получаем ID из data-атрибута
+   const todo = todoList.value.find(el => el.id == todoId)
+   delete todo.isDragReady
+}
 
 const onDragEnd = () => {
-   setTimeout(() => {
-      localStorage.setItem('todo-list', JSON.stringify(todoList.value))
-   }, 100)
+   localStorage.setItem('todo-list', JSON.stringify(todoList.value))
 }
 
-function handleMouseDown(todo) {
-   delayForMoovingTimer = setTimeout(() => {
-      todo.isSelected = true
-   }, delayForMooving)
-}
-
-function handleMouseUp(todo) {
-   clearTimeout(delayForMoovingTimer)
-   setTimeout(() => todo.isSelected = false) //для clickHandler, чтобы не было вызова при длинном нажатии
-}
-
-function clickHandler(todo) {
-   if (todo.isSelected) return
-   navigateTo(`/${todo.id}`)
-}
 </script>
 
 <template>
@@ -36,12 +28,15 @@ function clickHandler(todo) {
 
          <draggable v-model="todoList"
                     item-key="id"
+                    @choose="onDragReady"
+                    @unchoose="onDragCancel"
                     @end="onDragEnd"
-                    :delay=delayForMooving>
+                    :delay=500>
 
             <template #item="{ element: todo, index }">
 
-               <div :class="{ 'opacity-70': isPaste(todo.date) }">
+               <div :data-id="todo.id"
+                    :class="{ 'opacity-70': isPaste(todo.date) }">
 
                   <div v-if="index == 0 || index != 0 && todo.date != todoList[index - 1].date"
                        class="text-center"
@@ -53,13 +48,8 @@ function clickHandler(todo) {
                   </div>
 
                   <div class="bg-green-500 rounded-md p-3 mt-3 text-green-900"
-                       :class="{ 'border-2 border-purple-600': todo.isSelected }"
-                       @click="clickHandler(todo)"
-                       @mousedown="handleMouseDown(todo)"
-                       @mouseup="handleMouseUp(todo)"
-                       @mouseleave="handleMouseUp(todo)"
-                       @touchstart="handleMouseDown(todo)"
-                       @touchend="handleMouseUp(todo)">
+                       :class="{ 'border-2 border-purple-600': todo.isDragReady }"
+                       @click="navigateTo(`/${todo.id}`)">
 
                      <div class="flex items-center gap-2">
 
