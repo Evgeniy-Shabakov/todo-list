@@ -130,7 +130,7 @@ const onDragEnd = () => {
                              src="~/assets/images/img_0.png">
 
 
-                        <div>
+                        <div class="select-none">
                            {{ todo.title }}
                         </div>
 
