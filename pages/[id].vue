@@ -1,10 +1,13 @@
 <script setup>
+import { getNextMonthDate, getNextYearDate, isToday, isTomorrow } from '~/js/date-helper'
 import { todoList, addTodo } from '~/js/todo-list'
 
 const id = useRoute().params.id
 
 const title = ref()
-const date = ref(new Date().toISOString().split('T')[0]) //устанавливаем текущую дату
+const date = ref(new Date().toLocaleDateString('en-CA')) //устанавливаем текущую дату
+console.log(date.value)
+
 const imgIndex = ref(0)
 
 const subTodoInput = ref()
@@ -66,6 +69,14 @@ function removeSubTodo(index) {
    }
 }
 
+const dayOfWeek = computed(() => {
+   if (!date.value) return ''
+
+   const days = ['Воскресенье', 'Понедельник', 'Вторник', 'Среда', 'Четверг', 'Пятница', 'Суббота']
+   const dayIndex = new Date(date.value).getDay()
+   return days[dayIndex]
+})
+
 </script>
 
 <template>
@@ -78,9 +89,54 @@ function removeSubTodo(index) {
                    v-model="title"
                    placeholder="Введите задачу" />
 
-         <input type="date"
-                v-model="date"
-                class="bg-gray-100 border border-violet-500 rounded-md p-3 w-max">
+         <div>
+            <input type="date"
+                   v-model="date"
+                   class="bg-gray-100 border border-violet-500 rounded-md p-1 w-max mr-2">
+
+            <span class="mr-1"> {{ dayOfWeek }}</span>
+         </div>
+
+
+         <div class="flex gap-1 flex-wrap">
+
+            <div class="flex gap-1 flex-wrap">
+               <button class="bg-violet-400 p-1 rounded-md text-gray-100"
+                       :class="{ 'bg-violet-600': isToday(date) }"
+                       @click="date = new Date().toLocaleDateString('en-CA')">
+                  сегодня
+               </button>
+
+               <button class="bg-violet-400 p-1 rounded-md text-gray-100"
+                       :class="{ 'bg-violet-600': isTomorrow(date) }"
+                       @click="date = new Date(Date.now() + 86400000).toLocaleDateString('en-CA')">
+                  завтра
+               </button>
+            </div>
+
+            <div class="flex gap-1 flex-wrap">
+               <button class="bg-violet-600 active:bg-violet-500 p-1 rounded-md text-gray-100"
+                       @click="date = new Date(new Date(date).getTime() + 86400000).toLocaleDateString('en-CA')">
+                  + день
+               </button>
+
+               <button class="bg-violet-600 active:bg-violet-500 p-1 rounded-md text-gray-100"
+                       @click="date = new Date(new Date(date).getTime() + 604800000).toLocaleDateString('en-CA')">
+                  + неделя
+               </button>
+
+               <button class="bg-violet-600 active:bg-violet-500 p-1 rounded-md text-gray-100"
+                       @click="date = getNextMonthDate(date)">
+                  + месяц
+               </button>
+
+               <button class="bg-violet-600 active:bg-violet-500 p-1 rounded-md text-gray-100"
+                       @click="date = getNextYearDate(date)">
+                  + год
+               </button>
+            </div>
+
+         </div>
 
          <div class="flex gap-0.5 flex-wrap">
 

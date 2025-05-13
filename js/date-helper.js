@@ -38,3 +38,15 @@ export function isPaste(dateString) {
     
     return dateToCheck < today; // Возвращает true, если дата меньше сегодняшней
 }
+
+export function getNextMonthDate(dateString) {
+  const date = new Date(dateString);
+  date.setMonth(date.getMonth() + 1);
+  return date.toLocaleDateString('en-CA');
+}
+
+export function getNextYearDate(dateString) {
+  const date = new Date(dateString);
+  date.setFullYear(date.getFullYear() + 1);
+  return date.toLocaleDateString('en-CA');
+}
