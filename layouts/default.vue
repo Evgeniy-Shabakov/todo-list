@@ -7,6 +7,7 @@ const pageTitle = computed(() => {
    if (route.path == '/') return 'Текущие задачи'
    else if (route.path.includes('completed')) return 'Завершенные задачи'
    else if (route.path.includes('create')) return 'Добавление задачи'
+   else if (route.path.includes('templates')) return 'Шаблоны задач'
    return 'Редактирование задачи'
 })
 

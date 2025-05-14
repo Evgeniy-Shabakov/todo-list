@@ -1,19 +1,27 @@
 <script setup>
 import { getNextMonthDate, getNextYearDate, isToday, isTomorrow } from '~/js/date-helper'
-import { todoList, addTodo } from '~/js/todo-list'
+import { todoList, addTodo, templateList, currentTemplate } from '~/js/todo-list'
 
 const id = useRoute().params.id
 
 const title = ref()
 const date = ref(new Date().toLocaleDateString('en-CA')) //устанавливаем текущую дату
-console.log(date.value)
 
 const imgIndex = ref(0)
 
 const subTodoInput = ref()
 const subTodoList = ref([])
 
+const needAddToTemplateList = ref(false)
+
 let currentTodo
+
+if (id == 'create' && currentTemplate.value) {
+   title.value = currentTemplate.value.title
+   imgIndex.value = currentTemplate.value.imgIndex
+
+   currentTemplate.value = null
+}
 
 if (id != 'create') {
    currentTodo = todoList.value.find(todo => todo.id == id)
@@ -54,6 +62,17 @@ function btnAddTodoHandler() {
    }
 
    addTodo(todo)
+
+   if (needAddToTemplateList.value) {
+      templateList.value.push({
+         id: Date.now(),
+         title: title.value,
+         imgIndex: imgIndex.value
+      })
+
+      localStorage.setItem('template-list', JSON.stringify(templateList.value))
+   }
+
    navigateTo('/')
 }
 
@@ -98,41 +117,41 @@ const dayOfWeek = computed(() => {
          </div>
 
 
-         <div class="flex gap-1 flex-wrap">
+         <div class="flex gap-1 justify-between">
 
-            <div class="flex gap-1 flex-wrap">
-               <button class="bg-violet-400 p-1 rounded-md text-gray-100"
+            <div class="flex gap-2 flex-wrap">
+               <button class="bg-violet-400 p-1.5 rounded-md text-gray-100"
                        :class="{ 'bg-violet-600': isToday(date) }"
                        @click="date = new Date().toLocaleDateString('en-CA')">
                   сегодня
                </button>
 
-               <button class="bg-violet-400 p-1 rounded-md text-gray-100"
+               <button class="bg-violet-400 p-1.5 rounded-md text-gray-100"
                        :class="{ 'bg-violet-600': isTomorrow(date) }"
                        @click="date = new Date(Date.now() + 86400000).toLocaleDateString('en-CA')">
                   завтра
                </button>
             </div>
 
-            <div class="flex gap-1 flex-wrap">
-               <button class="bg-violet-600 active:bg-violet-500 p-1 rounded-md text-gray-100"
+            <div class="flex gap-2 flex-wrap">
+               <button class="bg-violet-600 active:bg-violet-500 p-1.5 rounded-md text-gray-100"
                        @click="date = new Date(new Date(date).getTime() + 86400000).toLocaleDateString('en-CA')">
-                  + день
+                  +1д.
                </button>
 
-               <button class="bg-violet-600 active:bg-violet-500 p-1 rounded-md text-gray-100"
+               <button class="bg-violet-600 active:bg-violet-500 p-1.5 rounded-md text-gray-100"
                        @click="date = new Date(new Date(date).getTime() + 604800000).toLocaleDateString('en-CA')">
-                  + неделя
+                  +1н.
                </button>
 
-               <button class="bg-violet-600 active:bg-violet-500 p-1 rounded-md text-gray-100"
+               <button class="bg-violet-600 active:bg-violet-500 p-1.5 rounded-md text-gray-100"
                        @click="date = getNextMonthDate(date)">
-                  + месяц
+                  +1м.
                </button>
 
-               <button class="bg-violet-600 active:bg-violet-500 p-1 rounded-md text-gray-100"
+               <button class="bg-violet-600 active:bg-violet-500 p-1.5 rounded-md text-gray-100"
                        @click="date = getNextYearDate(date)">
-                  + год
+                  +1г.
                </button>
             </div>
 
@@ -141,102 +160,112 @@ const dayOfWeek = computed(() => {
          <div class="flex gap-0.5 flex-wrap">
 
             <img class="h-12 w-12 p-1"
-                 :class="{ 'border border-violet-500 rounded-md': imgIndex === 0 }"
+                 :class="{ 'border-2 border-violet-500 rounded-md': imgIndex === 0 }"
                  @click="imgIndex = 0"
                  src="~/assets/images/img_0.png">
 
             <img class="h-12 w-12 p-1"
-                 :class="{ 'border border-violet-500 rounded-md': imgIndex === 1 }"
+                 :class="{ 'border-2 border-violet-500 rounded-md': imgIndex === 1 }"
                  @click="imgIndex = 1"
                  src="~/assets/images/img_1.png">
 
             <img class="h-12 w-12 p-1"
-                 :class="{ 'border border-violet-500 rounded-md': imgIndex === 2 }"
+                 :class="{ 'border-2 border-violet-500 rounded-md': imgIndex === 2 }"
                  @click="imgIndex = 2"
                  src="~/assets/images/img_2.png">
 
             <img class="h-12 w-12 p-1"
-                 :class="{ 'border border-violet-500 rounded-md': imgIndex === 3 }"
+                 :class="{ 'border-2 border-violet-500 rounded-md': imgIndex === 3 }"
                  @click="imgIndex = 3"
                  src="~/assets/images/img_3.png">
 
             <img class="h-12 w-12 p-1"
-                 :class="{ 'border border-violet-500 rounded-md': imgIndex === 4 }"
+                 :class="{ 'border-2 border-violet-500 rounded-md': imgIndex === 4 }"
                  @click="imgIndex = 4"
                  src="~/assets/images/img_4.png">
 
             <img class="h-12 w-12 p-1"
-                 :class="{ 'border border-violet-500 rounded-md': imgIndex === 5 }"
+                 :class="{ 'border-2 border-violet-500 rounded-md': imgIndex === 5 }"
                  @click="imgIndex = 5"
                  src="~/assets/images/img_5.png">
 
             <img class="h-12 w-12 p-1"
-                 :class="{ 'border border-violet-500 rounded-md': imgIndex === 6 }"
+                 :class="{ 'border-2 border-violet-500 rounded-md': imgIndex === 6 }"
                  @click="imgIndex = 6"
                  src="~/assets/images/img_6.png">
 
             <img class="h-12 w-12 p-1"
-                 :class="{ 'border border-violet-500 rounded-md': imgIndex === 7 }"
+                 :class="{ 'border-2 border-violet-500 rounded-md': imgIndex === 7 }"
                  @click="imgIndex = 7"
                  src="~/assets/images/img_7.png">
 
             <img class="h-12 w-12 p-1"
-                 :class="{ 'border border-violet-500 rounded-md': imgIndex === 8 }"
+                 :class="{ 'border-2 border-violet-500 rounded-md': imgIndex === 8 }"
                  @click="imgIndex = 8"
                  src="~/assets/images/img_8.png">
 
             <img class="h-12 w-12 p-1"
-                 :class="{ 'border border-violet-500 rounded-md': imgIndex === 9 }"
+                 :class="{ 'border-2 border-violet-500 rounded-md': imgIndex === 9 }"
                  @click="imgIndex = 9"
                  src="~/assets/images/img_9.png">
 
             <img class="h-12 w-12 p-1"
-                 :class="{ 'border border-violet-500 rounded-md': imgIndex === 10 }"
+                 :class="{ 'border-2 border-violet-500 rounded-md': imgIndex === 10 }"
                  @click="imgIndex = 10"
                  src="~/assets/images/img_10.png">
 
             <img class="h-12 w-12 p-1"
-                 :class="{ 'border border-violet-500 rounded-md': imgIndex === 11 }"
+                 :class="{ 'border-2 border-violet-500 rounded-md': imgIndex === 11 }"
                  @click="imgIndex = 11"
                  src="~/assets/images/img_11.png">
 
             <img class="h-12 w-12 p-1"
-                 :class="{ 'border border-violet-500 rounded-md': imgIndex === 12 }"
+                 :class="{ 'border-2 border-violet-500 rounded-md': imgIndex === 12 }"
                  @click="imgIndex = 12"
                  src="~/assets/images/img_12.png">
 
             <img class="h-12 w-12 p-1"
-                 :class="{ 'border border-violet-500 rounded-md': imgIndex === 13 }"
+                 :class="{ 'border-2 border-violet-500 rounded-md': imgIndex === 13 }"
                  @click="imgIndex = 13"
                  src="~/assets/images/img_13.png">
 
             <img class="h-12 w-12 p-1"
-                 :class="{ 'border border-violet-500 rounded-md': imgIndex === 14 }"
+                 :class="{ 'border-2 border-violet-500 rounded-md': imgIndex === 14 }"
                  @click="imgIndex = 14"
                  src="~/assets/images/img_14.png">
 
             <img class="h-12 w-12 p-1"
-                 :class="{ 'border border-violet-500 rounded-md': imgIndex === 15 }"
+                 :class="{ 'border-2 border-violet-500 rounded-md': imgIndex === 15 }"
                  @click="imgIndex = 15"
                  src="~/assets/images/img_15.png">
 
             <img class="h-12 w-12 p-1"
-                 :class="{ 'border border-violet-500 rounded-md': imgIndex === 16 }"
+                 :class="{ 'border-2 border-violet-500 rounded-md': imgIndex === 16 }"
                  @click="imgIndex = 16"
                  src="~/assets/images/img_16.png">
 
             <img class="h-12 w-12 p-1"
-                 :class="{ 'border border-violet-500 rounded-md': imgIndex === 17 }"
+                 :class="{ 'border-2 border-violet-500 rounded-md': imgIndex === 17 }"
                  @click="imgIndex = 17"
                  src="~/assets/images/img_17.png">
 
             <img class="h-12 w-12 p-1"
-                 :class="{ 'border border-violet-500 rounded-md': imgIndex === 18 }"
+                 :class="{ 'border-2 border-violet-500 rounded-md': imgIndex === 18 }"
                  @click="imgIndex = 18"
                  src="~/assets/images/img_18.png">
 
          </div>
 
+         <div v-if="id == 'create'"
+              class="flex items-center justify-between gap-6">
+            <button class="bg-violet-600 p-1 rounded-md text-gray-100 flex-1"
+                    @click="needAddToTemplateList = !needAddToTemplateList">
+               {{ needAddToTemplateList ? 'отменить' : 'добавить в список шаблонов' }}
+            </button>
+            <input v-model="needAddToTemplateList"
+                   type="checkbox"
+                   class="w-7 h-7">
+         </div>
 
          <div class="flex items-center justify-between gap-2.5">
             <textarea class="bg-gray-100 border border-violet-500 rounded-md w-full p-3"

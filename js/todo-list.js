@@ -1,5 +1,7 @@
 export const todoList = ref([])
 export const todoListCompleted = ref([])
+export const templateList = ref([])
+export const currentTemplate = ref()
 
 watchEffect(() => {
    todoList.value.sort((a, b) => new Date(a.date) - new Date(b.date))  
@@ -52,6 +54,10 @@ export function initialize() {
 
          localStorage.setItem('todo-list-completed', JSON.stringify(todoListCompleted.value))
       }
+   }
+
+   if (localStorage.getItem('template-list')) {
+      templateList.value = JSON.parse(localStorage.getItem('template-list'))
    }
 
 }

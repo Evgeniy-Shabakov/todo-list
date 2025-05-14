@@ -1,32 +1,37 @@
 <script setup>
 import draggable from 'vuedraggable'
-import { todoList, removeTodo, removeSubTodo } from '~/js/todo-list'
-import { formatDate, isToday, isTomorrow, isPaste } from '~/js/date-helper'
+import { currentTemplate, templateList } from '~/js/todo-list'
 
 const onDragReady = (event) => {
    const todoId = event.item.dataset.id; // Получаем ID из data-атрибута
-   const todo = todoList.value.find(el => el.id == todoId)
+   const todo = templateList.value.find(el => el.id == todoId)
    todo.isDragReady = true
 }
 
 const onDragCancel = (event) => {
    const todoId = event.item.dataset.id; // Получаем ID из data-атрибута
-   const todo = todoList.value.find(el => el.id == todoId)
+   const todo = templateList.value.find(el => el.id == todoId)
    delete todo.isDragReady
 }
 
 const onDragEnd = () => {
-   localStorage.setItem('todo-list', JSON.stringify(todoList.value))
+   localStorage.setItem('template-list', JSON.stringify(templateList.value))
 }
 
+function removeTemplate(index) {
+   console.log(index)
+
+   if (index >= 0 && index < templateList.value.length) {
+      templateList.value.splice(index, 1)
+      localStorage.setItem('template-list', JSON.stringify(templateList.value))
+   }
+}
 </script>
 
 <template>
    <div>
-
       <div class="mb-14">
-
-         <draggable v-model="todoList"
+         <draggable v-model="templateList"
                     item-key="id"
                     @choose="onDragReady"
                     @unchoose="onDragCancel"
@@ -35,21 +40,11 @@ const onDragEnd = () => {
 
             <template #item="{ element: todo, index }">
 
-               <div :data-id="todo.id"
-                    :class="{ 'opacity-70': isPaste(todo.date) }">
-
-                  <div v-if="index == 0 || index != 0 && todo.date != todoList[index - 1].date"
-                       class="text-center"
-                       :class="{ 'mt-5': index !== 0 }">
-                     <div v-if="isPaste(todo.date)">Просроченные</div>
-                     <div v-else-if="isToday(todo.date)">Сегодня</div>
-                     <div v-else-if="isTomorrow(todo.date)">Завтра</div>
-                     <div class="text-xs">{{ formatDate(todo.date) }}</div>
-                  </div>
+               <div :data-id="todo.id">
 
                   <div class="bg-green-500 rounded-md p-3 mt-3 text-green-900"
                        :class="{ 'border-2 border-purple-600': todo.isDragReady }"
-                       @click="navigateTo(`/${todo.id}`)">
+                       @click="currentTemplate = todo; navigateTo(`/create`)">
 
                      <div class="flex items-center gap-2">
 
@@ -136,45 +131,25 @@ const onDragEnd = () => {
 
                         <div class="ml-auto">
                            <IconTrash class="text-red-500"
-                                      @click.stop="removeTodo(index)" />
+                                      @click.stop="removeTemplate(index)" />
                         </div>
 
                      </div>
 
                   </div>
 
-                  <div class="mt-0.5 rounded-md space-y-3 text-sm p-3 bg-violet-300"
-                       v-if="todo.subTodoList.length > 0">
-                     <div v-for="(subTodo, index) in todo.subTodoList"
-                          :key="index"
-                          class=" flex items-center justify-between">
-                        <div>
-                           {{ subTodo }}
-                        </div>
-                        <div @click.stop="removeSubTodo(todo, index)">
-                           <IconXmark class="h-4"></IconXmark>
-                        </div>
-                     </div>
-                  </div>
                </div>
 
             </template>
 
          </draggable>
-
       </div>
 
-      <div class="fixed bottom-0 left-0 w-full bg-violet-300 text-white
-                  flex items-center justify-between">
-
-         <button class="flex-1 p-3 bg-violet-600" @click="navigateTo('/create')">
-            Добавить новую задачу
-         </button>
-
-         <NuxtLink to="/templates" class="p-3 bg-violet-700">
-            Шаблоны
-         </NuxtLink>
-      </div>
-
+      <button class="fixed bottom-0 left-0 w-full p-3 bg-violet-600 text-white"
+              @click="navigateTo('/')">
+         Назад
+      </button>
    </div>
 </template>
+
+<style scoped></style>
