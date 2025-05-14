@@ -37,7 +37,7 @@ if (id != 'create') {
 const taskInput = ref(null) // Создаем реф для textarea
 
 onMounted(() => {
-   if (id == 'create') taskInput.value.focus()
+   if (id == 'create' && !title.value) taskInput.value.focus()
 })
 
 onBeforeUnmount(() => {
@@ -117,39 +117,39 @@ const dayOfWeek = computed(() => {
          </div>
 
 
-         <div class="flex gap-1 justify-between">
+         <div class="flex gap-1 justify-between text-sm">
 
-            <div class="flex gap-2 flex-wrap">
-               <button class="bg-violet-400 p-1.5 rounded-md text-gray-100"
+            <div class="flex gap-1 flex-wrap">
+               <button class="bg-violet-400 p-1 rounded-md text-gray-100"
                        :class="{ 'bg-violet-600': isToday(date) }"
                        @click="date = new Date().toLocaleDateString('en-CA')">
                   сегодня
                </button>
 
-               <button class="bg-violet-400 p-1.5 rounded-md text-gray-100"
+               <button class="bg-violet-400 p-1 rounded-md text-gray-100"
                        :class="{ 'bg-violet-600': isTomorrow(date) }"
                        @click="date = new Date(Date.now() + 86400000).toLocaleDateString('en-CA')">
                   завтра
                </button>
             </div>
 
-            <div class="flex gap-2 flex-wrap">
-               <button class="bg-violet-600 active:bg-violet-500 p-1.5 rounded-md text-gray-100"
+            <div class="flex gap-1 flex-wrap">
+               <button class="bg-violet-600 active:bg-violet-500 p-1 rounded-md text-gray-100"
                        @click="date = new Date(new Date(date).getTime() + 86400000).toLocaleDateString('en-CA')">
                   +1д.
                </button>
 
-               <button class="bg-violet-600 active:bg-violet-500 p-1.5 rounded-md text-gray-100"
+               <button class="bg-violet-600 active:bg-violet-500 p-1 rounded-md text-gray-100"
                        @click="date = new Date(new Date(date).getTime() + 604800000).toLocaleDateString('en-CA')">
                   +1н.
                </button>
 
-               <button class="bg-violet-600 active:bg-violet-500 p-1.5 rounded-md text-gray-100"
+               <button class="bg-violet-600 active:bg-violet-500 p-1 rounded-md text-gray-100"
                        @click="date = getNextMonthDate(date)">
                   +1м.
                </button>
 
-               <button class="bg-violet-600 active:bg-violet-500 p-1.5 rounded-md text-gray-100"
+               <button class="bg-violet-600 active:bg-violet-500 p-1 rounded-md text-gray-100"
                        @click="date = getNextYearDate(date)">
                   +1г.
                </button>
