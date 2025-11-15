@@ -2,7 +2,7 @@
 import draggable from 'vuedraggable'
 import { todoList, removeTodo, removeSubTodo } from '~/js/todo-list'
 import { formatDate, isToday, isTomorrow, isPaste } from '~/js/date-helper'
-import { downloadBackup } from '~/js/todo-list'
+import { doBackup } from '~/js/todo-list'
 
 const onDragReady = (event) => {
    const todoId = event.item.dataset.id; // Получаем ID из data-атрибута

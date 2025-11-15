@@ -62,7 +62,7 @@ export function initialize() {
 
 }
 
-export function downloadBackup() {
+export function doBackup() {
    // Создаем данные для скачивания
    const data = JSON.stringify(todoList.value, null, 2);
    const blob = new Blob([data], { type: 'application/json' });
