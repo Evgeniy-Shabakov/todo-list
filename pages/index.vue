@@ -20,14 +20,14 @@ const onDragEnd = () => {
    localStorage.setItem('todo-list', JSON.stringify(todoList.value))
 }
 
-// onMounted(() => {
-//    const dateLastBackup = localStorage.getItem('last-backup')
+onMounted(() => {
+   const dateLastBackup = localStorage.getItem('last-backup')
 
-//    if (!dateLastBackup || Date.now() - new Date(dateLastBackup).getTime() > 24 * 60 * 60 * 1000) {
-//       downloadBackup()
-//       localStorage.setItem('last-backup', new Date().toISOString())
-//    }
-// })
+   if (!dateLastBackup || Date.now() - new Date(dateLastBackup).getTime() > 24 * 60 * 60 * 1000) {
+      doBackup()
+      localStorage.setItem('last-backup', new Date().toISOString())
+   }
+})
 
 </script>
 
