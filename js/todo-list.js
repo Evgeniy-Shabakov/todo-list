@@ -62,20 +62,35 @@ export function initialize() {
 
 }
 
+// export function doBackup() {
+//    // Создаем данные для скачивания
+//    const data = JSON.stringify(todoList.value, null, 2);
+//    const blob = new Blob([data], { type: 'application/json' });
+//    const url = URL.createObjectURL(blob);
+
+//    // Создаем и запускаем скачивание
+//    const a = document.createElement('a');
+//    a.href = url;
+//    a.download = `todo_backup_${new Date().toLocaleDateString('ru-RU')}.json`;
+//    a.click();
+
+//    // Очищаем память
+//    URL.revokeObjectURL(url);
+// };
+
 export function doBackup() {
-   // Создаем данные для скачивания
-   const data = JSON.stringify(todoList.value, null, 2);
-   const blob = new Blob([data], { type: 'application/json' });
-   const url = URL.createObjectURL(blob);
-
-   // Создаем и запускаем скачивание
-   const a = document.createElement('a');
-   a.href = url;
-   a.download = `todo_backup_${new Date().toLocaleDateString('ru-RU')}.json`;
-   a.click();
-
-   // Очищаем память
-   URL.revokeObjectURL(url);
+  const data = JSON.stringify(todoList.value, null, 2);
+  
+  if (data.length > 1000000) { // ~1MB
+    alert('Данные слишком большие для скачивания в этом режиме');
+    return;
+  }
+  
+  const dataUrl = 'data:application/json;charset=utf-8,' + encodeURIComponent(data);
+  const a = document.createElement('a');
+  a.href = dataUrl;
+  a.download = `todo_backup_${new Date().toLocaleDateString('ru-RU')}.json`;
+  a.click();
 };
 
 export function uploadBackup() {
