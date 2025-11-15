@@ -2,6 +2,7 @@
 import draggable from 'vuedraggable'
 import { todoList, removeTodo, removeSubTodo } from '~/js/todo-list'
 import { formatDate, isToday, isTomorrow, isPaste } from '~/js/date-helper'
+import { downloadBackup } from '~/js/todo-list'
 
 const onDragReady = (event) => {
    const todoId = event.item.dataset.id; // Получаем ID из data-атрибута
@@ -18,6 +19,15 @@ const onDragCancel = (event) => {
 const onDragEnd = () => {
    localStorage.setItem('todo-list', JSON.stringify(todoList.value))
 }
+
+onMounted(() => {
+   const dateLastBackup = localStorage.getItem('last-backup')
+
+   if (!dateLastBackup || Date.now() - new Date(dateLastBackup).getTime() > 24 * 60 * 60 * 1000) {
+      downloadBackup()
+      localStorage.setItem('last-backup', new Date().toISOString())
+   }
+})
 
 </script>
 
@@ -167,11 +177,13 @@ const onDragEnd = () => {
       <div class="fixed bottom-0 left-0 w-full bg-violet-300 text-white
                   flex items-center justify-between">
 
-         <button class="flex-1 p-3 bg-violet-600" @click="navigateTo('/create')">
+         <button class="flex-1 p-3 bg-violet-600"
+                 @click="navigateTo('/create')">
             Добавить новую задачу
          </button>
 
-         <NuxtLink to="/templates" class="p-3 bg-violet-700">
+         <NuxtLink to="/templates"
+                   class="p-3 bg-violet-700">
             Шаблоны
          </NuxtLink>
       </div>

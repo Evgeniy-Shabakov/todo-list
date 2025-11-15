@@ -1,4 +1,5 @@
 <script setup>
+import { downloadBackup, uploadBackup } from '~/js/todo-list'
 
 const burgerMenuIsOpen = ref(false)
 
@@ -46,6 +47,12 @@ function closeBurgerMenu() {
             </NuxtLink>
             <NuxtLink @click="navigateTo('/completed'); burgerMenuIsOpen = false">
                Выполненные задачи
+            </NuxtLink>
+            <NuxtLink @click="downloadBackup(); burgerMenuIsOpen = false">
+               Сделать резервную копию
+            </NuxtLink>
+            <NuxtLink @click="uploadBackup(); burgerMenuIsOpen = false">
+               Восстановить из резервной копии
             </NuxtLink>
 
          </div>
