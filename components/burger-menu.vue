@@ -48,12 +48,12 @@ function closeBurgerMenu() {
             <NuxtLink @click="navigateTo('/completed'); burgerMenuIsOpen = false">
                Выполненные задачи
             </NuxtLink>
-            <NuxtLink @click="downloadBackup(); burgerMenuIsOpen = false">
+            <!-- <NuxtLink @click="downloadBackup(); burgerMenuIsOpen = false">
                Сделать резервную копию
             </NuxtLink>
             <NuxtLink @click="uploadBackup(); burgerMenuIsOpen = false">
                Восстановить из резервной копии
-            </NuxtLink>
+            </NuxtLink> -->
 
          </div>
 
