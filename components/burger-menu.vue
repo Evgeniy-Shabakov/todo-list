@@ -1,5 +1,5 @@
 <script setup>
-import { doBackup, uploadBackup } from '~/js/todo-list'
+import { doBackup, loadBackup } from '~/js/todo-list'
 
 const burgerMenuIsOpen = ref(false)
 
@@ -51,7 +51,7 @@ function closeBurgerMenu() {
             <NuxtLink @click="doBackup(); burgerMenuIsOpen = false">
                Сделать резервную копию
             </NuxtLink>
-            <NuxtLink @click="uploadBackup(); burgerMenuIsOpen = false">
+            <NuxtLink @click="loadBackup(); burgerMenuIsOpen = false">
                Восстановить из резервной копии
             </NuxtLink> 
          </div>

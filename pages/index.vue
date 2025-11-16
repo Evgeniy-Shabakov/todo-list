@@ -21,6 +21,8 @@ const onDragEnd = () => {
 }
 
 onMounted(() => {
+   if (todoList.value.length == 0) return
+
    const dateLastBackup = localStorage.getItem('last-backup')
 
    if (!dateLastBackup || Date.now() - new Date(dateLastBackup).getTime() > 24 * 60 * 60 * 1000) {
