@@ -13,10 +13,11 @@ export default defineNuxtConfig({
       ],
    },
    app: {
+      baseURL: '/todo-list/',
       head: {
-         title: 'Доставка еды',
+         title: 'Todo List',
          link: [
-            { rel: 'manifest', href: '/manifest.webmanifest' }
+            { rel: 'manifest', href: 'manifest.webmanifest' }
          ]
       }
    },
