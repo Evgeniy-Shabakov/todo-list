@@ -13,11 +13,12 @@ export default defineNuxtConfig({
       ],
    },
    app: {
-      baseURL: '/todo-list/',
+      baseURL: '/todo-list/', //добавил для публикации в githab pages
       head: {
          title: 'Todo List',
          link: [
-            { rel: 'manifest', href: 'manifest.webmanifest' }
+            { rel: 'manifest', href: 'manifest.webmanifest' }, // перед manifest убрал / для githab pages
+            { rel: 'icon', type: 'image/x-icon', href: 'favicon.ico' } ////добавил для публикации в githab pages
          ]
       }
    },
